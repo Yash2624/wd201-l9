@@ -7,7 +7,7 @@ function extractCsrfToken(res) {
   let $ = cheerio.load(res.text);
   return $("[name=_csrf]").val();
 }
-describe("Todo Application", function () {
+describe("Todo Application made by Yash", function () {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -38,7 +38,7 @@ describe("Todo Application", function () {
     const res = await agent.get("/");
     const csrfToken = extractCsrfToken(res);
     await agent.post("/todos").send({
-      title: "wash dishes",
+      title: "Drink Milk",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
@@ -68,13 +68,13 @@ describe("Todo Application", function () {
     const res = await agent.get("/");
     const csrfToken = extractCsrfToken(res);
     await agent.post("/todos").send({
-      title: "Buy xbox",
+      title: "Buy more milk",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
     });
     await agent.post("/todos").send({
-      title: "Buy ps3",
+      title: "Buy extra milk",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
@@ -82,7 +82,7 @@ describe("Todo Application", function () {
     const response = await agent.get("/todos");
     const parsedResponse = JSON.parse(response.text);
     expect(parsedResponse.length).toBe(4);
-    expect(parsedResponse[3]["title"]).toBe("Buy ps3");
+    expect(parsedResponse[3]["title"]).toBe("Buy extra milk");
   });
 
   // testing the deletion of a todo
@@ -90,7 +90,7 @@ describe("Todo Application", function () {
     const res = await agent.get("/");
     const csrfToken = extractCsrfToken(res);
     await agent.post("/todos").send({
-      title: "Buy Momos",
+      title: "Buy milk cake",
       dueDate: new Date().toISOString(),
       completed: false,
       _csrf: csrfToken,
